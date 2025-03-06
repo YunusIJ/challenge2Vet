@@ -1,219 +1,169 @@
-# 🐶 Veterinary Store API
+# Challenge2Vet
 
-A **RESTful API** for managing a digital **pet marketplace**, where users can browse available pets, place orders, and admins can manage inventory. Built with **Node.js, Express, MongoDB, and JWT Authentication**.
+Challenge2Vet is a RESTful API for managing a veterinary store that enables pet management with admin and user roles.
 
----
+## Features
 
-## 📚 Features
+- User authentication (sign up, log in)
+- Admin authentication and authorization
+- Pet management (add, edit, purchase)
+- Image upload and storage using Cloudinary
+- Security features:
+  - Rate limiting
+  - XSS protection
+  - MongoDB sanitization
+  - JWT authentication
+  - Password hashing
 
-### 🏠 **Pet Management**
-- **View Available Pets** 📷🐕  
-- **Admin Only**: Add, Edit, and Remove Pets 🛠️  
+## Technologies Used
 
-### 🛍️ **Ordering System**
-- **Users can order pets**  
-- **Stock automatically updates when a pet is purchased**  
+- Node.js & Express.js
+- MongoDB & Mongoose
+- JWT for authentication
+- Multer for file uploads
+- Cloudinary for image storage
+- Pino for logging
+- bcryptjs for password hashing
+- Morgan for HTTP request logging
+- Express-rate-limit for API rate limiting
+- XSS-clean & Express-mongo-sanitize for security
 
-### 🔐 **Authentication & Security**
-- **JWT-based authentication** for secure access  
-- **Role-Based Access Control (Admin vs. User)**  
+## Getting Started
 
-### 🚀 **Additional Features**
-- **Cloudinary Integration** for image uploads  
-- **MongoDB with Mongoose** for database management  
-- **CORS & Secure Headers** for API protection  
+### Prerequisites
 
----
+- Node.js (v14 or higher)
+- MongoDB
+- Cloudinary account
 
-## 🛠️ **Tech Stack**
-| Technology  | Purpose |
-|------------|---------|
-| **Node.js** | JavaScript runtime |
-| **Express** | Web framework for APIs |
-| **MongoDB** | NoSQL database |
-| **Mongoose** | MongoDB ORM for schema validation |
-| **JWT** | JSON Web Tokens for authentication |
-| **bcrypt.js** | Secure password hashing |
-| **Cloudinary** | Image storage & management |
+### Installation
 
----
-
-## 🚀 **Getting Started**
-
-### **📌 Prerequisites**
-- **Node.js** (v14+ recommended)  
-- **MongoDB** (local or Atlas)  
-- **Postman** (for testing API requests)  
-
----
-
-### **1️⃣ Clone the Repository**
+1. Clone the repository:
 ```sh
-git clone https://github.com/yourusername/vetstore-api.git
-cd vetstore-api
+git clone https://github.com/yourusername/challenge2vet.git
+cd challenge2vet
+```
 
-
-2️⃣ Install Dependencies
-sh
-Copy
-Edit
+2. Install dependencies:
+```sh
 npm install
-3️⃣ Set Up Environment Variables
-Create a .env file in the root directory and add:
+```
 
-env
-Copy
-Edit
-PORT=5000
+3. Configure environment variables - create a .env file:
+```env
+PORT=6060
 MONGODB_URL=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
+CLOUDINARY_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+JWT_EXPIRES_IN=1h
+```
 
-4️⃣ Start the Server
-sh
-Copy
-Edit
-npm start
-or with Nodemon for hot reload:
+### Running the Application
 
-sh
-Copy
-Edit
+Development mode:
+```sh
 npm run dev
-✅ The API will run at:
-http://localhost:6060
+```
 
-📜 API Documentation
-🔐 Authentication Endpoints
-Method	Endpoint	Description	Access
-POST	/api/v1/auth/signup	Register a new user	Public
-POST	/api/v1/auth/login	User login & get JWT token	Public
+Production mode:
+```sh
+npm start
+```
 
+## API Documentation
 
-🐕 Pet Management Endpoints
-Method	Endpoint	Description	Access
-GET	/api/v1/pets	Get all pets	Public
-POST	/api/v1/pets	Add new pet	Admin Only
-PUT	/api/v1/pets/:id	Update pet details	Admin Only
-DELETE	/api/v1/pets/:id	Remove pet	Admin Only
-🛍️ Pet Orders Endpoints
-Method	Endpoint	Description	Access
-POST	/api/v1/orders	Order a pet	User Only
-GET	/api/v1/orders	View user orders	User Only
+### Authentication Endpoints
 
+#### User Routes
+- `POST /api/v1/user/signup`
+  - Register new user
+  - Body: `{userName, email, password}`
 
-📦 Sample Request/Response
-1️⃣ Registering a New User
-Request:
-http
-Copy
-Edit
-POST /api/v1/auth/signup
-Content-Type: application/json
-json
-Copy
-Edit
-{
-  "userName": "john_doe",
-  "email": "john@example.com",
-  "password": "SecurePass123"
-}
-Response:
-json
-Copy
-Edit
-{
-  "message": "User registered successfully",
-  "user": {
-    "id": "65fba12345678abc",
-    "email": "john@example.com",
-    "role": "user"
-  }
-}
-2️⃣ Adding a New Pet (Admin Only)
-Request:
-http
-Copy
-Edit
-POST /api/v1/pets
-Authorization: Bearer <your_jwt_token>
-Content-Type: application/json
-json
-Copy
-Edit
-{
-  "breedName": "Golden Retriever",
-  "age": 2,
-  "cost": 500,
-  "picture": "https://example.com/golden-retriever.jpg"
-}
-Response:
-json
-Copy
-Edit
-{
-  "message": "Pet added successfully!",
-  "pet": {
-    "breedName": "Golden Retriever",
-    "cost": 500
-  }
-}
-🔒 Error Handling
-This API implements a global error handler to return consistent and descriptive error messages.
+- `POST /api/v1/user/login`
+  - Login user
+  - Body: `{userName/email, password}`
 
-Status Code	Meaning	Example Error Response
-400	Bad Request	{ "message": "Invalid input data" }
-401	Unauthorized	{ "message": "Invalid token" }
-404	Not Found	{ "message": "Pet not found" }
-500	Server Error	{ "message": "Something went wrong" }
-📅 Project Structure
-pgsql
-Copy
-Edit
-src/
-├── app.js                 # Express application setup
-├── server.js              # Server entry point
-├── config/                # Configuration files
-│   └── database.js        # Database connection
-├── controllers/           # Request handlers
-│   ├── authController.js
-│   ├── petController.js
-│   ├── orderController.js
-├── middleware/            # Custom middleware
-│   ├── auth.js            # JWT Authentication middleware
-│   ├── errorHandler.js    # Global error handler
-├── models/                # Mongoose models
-│   ├── User.js
-│   ├── Pet.js
-│   ├── Order.js
-├── routes/                # API routes
-│   ├── authRoutes.js
-│   ├── petRoutes.js
-│   ├── orderRoutes.js
-├── services/              # Business logic
-│   ├── authService.js
-│   ├── petService.js
-│   ├── orderService.js
-└── utils/                 # Utility functions
-    ├── ApiError.js        # Custom error class
-    ├── asyncHandler.js    # Async error wrapper
+#### Admin Routes
+- `POST /api/v1/admin/login`
+  - Login admin
+  - Body: `{userName/email, password}`
+  - Default admin credentials:
+    - Email: admin@Vetlypets.com
+    - Password: Admin1234
+
+### Pet Management Endpoints
+
+#### Admin Only Routes
+- `POST /api/v1/pet/addpet`
+  - Add new pet
+  - Requires admin authentication
+  - Form-data: `{breedName, age, cost, quantity, picture}`
+
+- `PUT /api/v1/pet/editPet/:id`
+  - Edit existing pet
+  - Requires admin authentication
+  - Body: `{breedName, age, cost, quantity}`
+
+#### User Routes
+- `PUT /api/v1/pet/buy/:id`
+  - Purchase pet
+  - Body: `{quantity}`
+
+## Security Features
+
+1. Rate Limiting
+   - 5 requests per 10 seconds per IP
+
+2. Data Sanitization
+   - MongoDB query injection protection
+   - XSS protection
+
+3. Authentication
+   - JWT-based authentication
+   - Password hashing using bcrypt
+
+## File Structure
+
+```
+├── app.js
+├── src/
+│   ├── controllers/
+│   │   ├── admin.controller.js
+│   │   ├── pet.controller.js
+│   │   └── user.controller.js
+│   ├── models/
+│   │   ├── admin.model.js
+│   │   ├── pet.models.js
+│   │   └── user.models.js
+│   ├── routes/
+│   │   ├── admin.routes.js
+│   │   ├── pet.routes.js
+│   │   └── user.routes.js
+│   └── utils/
+│       └── log/
+│           ├── logger.js
+│           └── image/
+│               ├── cloudinary.js
+│               └── multer.js
+├── uploads/
+└── .env
+```
+
+## Error Handling
+
+The API implements comprehensive error handling for:
+- Invalid requests
+- Authentication failures
+- Database errors
+- File upload issues
 
 
-🛠️ Deployment
-This API can be deployed on Render, Railway, or Vercel.
+## Contributing
 
-1️⃣ Deploy on Render
-Push your project to GitHub
-Go to Render
-Select "New Web Service" → Connect GitHub Repo
-Set Start Command:
-sh
-Copy
-Edit
-node server.js
-Deploy & Get Public URL!
-📜 License
-This project is MIT Licensed. Feel free to use and modify.
-
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
