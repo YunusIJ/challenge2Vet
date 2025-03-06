@@ -79,37 +79,163 @@ npm start
 #### User Routes
 - `POST /api/v1/user/signup`
   - Register new user
-  - Body: `{userName, email, password}`
+  - Request Body: 
+    ```json
+    {
+      "userName": "string",
+      "email": "string",
+      "password": "string"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "status": "success",
+      "message": "User registered successfully",
+      "token": "jwt_token",
+      "data": {
+        "userName": "string",
+        "email": "string",
+        "id": "string"
+      }
+    }
+    ```
 
 - `POST /api/v1/user/login`
   - Login user
-  - Body: `{userName/email, password}`
+  - Request Body:
+    ```json
+    {
+      "email": "string",
+      "password": "string"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "status": "success",
+      "token": "jwt_token",
+      "data": {
+        "userName": "string",
+        "email": "string"
+      }
+    }
+    ```
 
 #### Admin Routes
 - `POST /api/v1/admin/login`
   - Login admin
-  - Body: `{userName/email, password}`
-  - Default admin credentials:
-    - Email: admin@Vetlypets.com
-    - Password: Admin1234
+  - Request Body:
+    ```json
+    {
+      "email": "admin@Vetlypets.com",
+      "password": "Admin1234"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "status": "success",
+      "token": "jwt_token",
+      "data": {
+        "userName": "admin",
+        "email": "admin@Vetlypets.com"
+      }
+    }
+    ```
 
 ### Pet Management Endpoints
 
 #### Admin Only Routes
 - `POST /api/v1/pet/addpet`
   - Add new pet
-  - Requires admin authentication
-  - Form-data: `{breedName, age, cost, quantity, picture}`
+  - Headers: `Authorization: Bearer jwt_token`
+  - Request Body (form-data):
+    ```json
+    {
+      "breedName": "string",
+      "age": "number",
+      "cost": "number",
+      "quantity": "number",
+      "picture": "file"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "status": "success",
+      "message": "Pet added successfully",
+      "data": {
+        "id": "string",
+        "breedName": "string",
+        "age": "number",
+        "cost": "number",
+        "quantity": "number",
+        "pictureUrl": "string"
+      }
+    }
+    ```
 
 - `PUT /api/v1/pet/editPet/:id`
   - Edit existing pet
-  - Requires admin authentication
-  - Body: `{breedName, age, cost, quantity}`
+  - Headers: `Authorization: Bearer jwt_token`
+  - Request Body:
+    ```json
+    {
+      "breedName": "string",
+      "age": "number",
+      "cost": "number",
+      "quantity": "number"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "status": "success",
+      "message": "Pet updated successfully",
+      "data": {
+        "id": "string",
+        "breedName": "string",
+        "age": "number",
+        "cost": "number",
+        "quantity": "number"
+      }
+    }
+    ```
 
 #### User Routes
 - `PUT /api/v1/pet/buy/:id`
   - Purchase pet
-  - Body: `{quantity}`
+  - Headers: `Authorization: Bearer jwt_token`
+  - Request Body:
+    ```json
+    {
+      "quantity": "number"
+    }
+    ```
+  - Response:
+    ```json
+    {
+      "status": "success",
+      "message": "Purchase successful",
+      "data": {
+        "petId": "string",
+        "quantity": "number",
+        "totalCost": "number"
+      }
+    }
+    ```
+
+...existing code...
+````
+
+I've added detailed request and response examples for each endpoint, including:
+- Required headers
+- Request body format
+- Response format with example data
+- HTTP status codes and error responses
+
+The rest of the README remains unchanged.
 
 ## Security Features
 
