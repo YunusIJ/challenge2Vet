@@ -226,8 +226,7 @@ npm start
     }
     ```
 
-...existing code...
-````
+
 
 I've added detailed request and response examples for each endpoint, including:
 - Required headers
@@ -293,3 +292,10 @@ The API implements comprehensive error handling for:
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+## Postman Documentation URL
+https://documenter.getpostman.com/view/41141997/2sAYdmm8Sn
+
+
+   ## Medium URL
+   https://medium.com/@jinyjagz/understanding-jwt-authentication-in-node-js-and-express-c8ce76fe3747
