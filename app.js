@@ -19,7 +19,7 @@ const app = express();
 import dotenv from "dotenv";
 dotenv.config()
  
-const port = process.env.PORT 
+const port = process.env.PORT
 
 
 
@@ -34,7 +34,7 @@ app.use(mongoSanitize());
 
 
 app.get("/", (req, res) => {
-    res.send("Welcome to My News Network");
+    res.send("Welcome to Vetly Pet Store");
   });
   
   const limiter = rateLimit({
